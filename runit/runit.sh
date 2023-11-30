@@ -89,19 +89,22 @@ COMPILE_CMD="gcc $RUNIT_PATH/runit.c $SRC -o $RUNIT_PATH/$EXE_FILE -DTEST_MDB"
 if [ "$VERBOSE_MODE" ]
 then
     echo
+    cat $INC_FILE_NAME
+    echo
     echo $COMPILE_CMD
     echo
+    $COMPILE_CMD
+else
+    $COMPILE_CMD > /dev/null 2>&1
 fi
 
-$COMPILE_CMD
-
-if [ -f $RUNIT_PATH/$EXE_FILE ]
+if [ $? -ne 0 ]
 then
-    $RUNIT_PATH/$EXE_FILE
-else
     echo
     echo "[RUnit] Error: compile error."
     exit 1
+else
+    $RUNIT_PATH/$EXE_FILE
 fi
 
 if [ -f $INC_FILE_NAME ]
