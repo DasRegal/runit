@@ -1,0 +1,47 @@
+#include "../example_src/module_1.h"
+{
+    #include "../example_src/module_1.c"
+
+    /* This function is called implicitly before each "it" block. */
+    before_each
+    {
+        ModuleOneInit();
+    }
+
+    context("With module One")
+    do
+        it("must initialize correctly")
+        do
+            ModuleOneGetState() to_eq(MOD_1_VAL);
+        end
+
+        describe("Modification")
+        do
+            it("should change the state correctly")
+            do
+                ModuleOneChangeState(15);
+
+                ModuleOneGetState() to_eq(15);
+            end
+
+            it("should be a valid check for null")
+            do
+                ModuleOneChangeState(0);
+                ModuleOneIsZero() to_eq(true);
+
+                ModuleOneChangeState(3);
+                ModuleOneIsZero() not_to_eq(true);
+            end
+        end
+
+        it("should return the known string")
+        do
+            char *ref_str = "Hello";
+            char str[16];
+
+            ModuleOneGetText(str);
+
+            arr_to_eq(ref_str, str, 5);
+        end
+    end
+}
