@@ -79,7 +79,7 @@ char            ru_is_it = 0;
 
 int main(void)
 {
-    #include "../../includes"
+    #include "includes"
     printf("\n%d examples, %d failures\n", ru_test, ru_count_failure);
     return 0;
 }

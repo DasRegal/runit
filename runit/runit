@@ -2,10 +2,11 @@
 
 RUNIT_VERSION=1.1V
 
-INC_FILE_NAME=includes
-EXE_FILE=runit_exe
-RUNIT_PATH=$(pwd)/runit/runit
-PRJ_PATH="$RUNIT_PATH/../.."
+RUNIT_SCRIPT_PATH=$0
+EXE_FILE=$(echo $RUNIT_SCRIPT_PATH)_exe
+RUNIT_C=$(echo $RUNIT_SCRIPT_PATH).c
+PRJ_PATH="$(pwd)"
+INC_FILE_NAME="$(pwd)/includes"
 SPEC_DIR="$PRJ_PATH/spec"
 
 function print_usage {
@@ -84,7 +85,7 @@ do
     fi
 done
 
-COMPILE_CMD="gcc $RUNIT_PATH/runit.c $SRC -o $RUNIT_PATH/$EXE_FILE -DTEST_MDB"
+COMPILE_CMD="gcc $RUNIT_C $SRC -o $EXE_FILE -DTEST_MDB -I$PRJ_PATH"
 
 if [ "$VERBOSE_MODE" ]
 then
@@ -104,12 +105,12 @@ then
     echo "[RUnit] Error: compile error."
     exit 1
 else
-    $RUNIT_PATH/$EXE_FILE
+    $EXE_FILE
 fi
 
 if [ -f $INC_FILE_NAME ]
 then
-    rm $RUNIT_PATH/$EXE_FILE
+    rm $EXE_FILE
     rm $INC_FILE_NAME
 else
     echo
